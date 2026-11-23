@@ -261,6 +261,7 @@ def install(app, base):
                 saved.append((name,amount))
             with LOCK,dbconn() as db:
                 base.must_get(db,'recordings',shelf_id)
+                base.ensure_library_room(db, sum(amount for _, amount in saved))
                 for name,amount in saved:db.execute('INSERT INTO recording_files VALUES(?,?,?,?)',(str(uuid4()),shelf_id,name,amount))
                 all_names=existing+names
                 primary=next((n for n in all_names if n.lower().endswith(SIGNALS)),'')
@@ -360,6 +361,7 @@ def install(app, base):
             raise HTTPException(422,'Unsupported EEG processing settings.')
         if req.task_type:ensure_task(req.task_type)
         with LOCK,dbconn() as db:
+            base.ensure_job_slot(db)
             if req.mode=='single':
                 rec=base.must_get(db,'recordings',req.target_id)
                 if not rec['source_name']:raise HTTPException(422,'Upload an EEG signal to this shelf first.')

@@ -411,6 +411,7 @@ def register(router: APIRouter, base):
         key = str(uuid4())
         progress = _initial_progress(manifest)
         with base.LOCK, base.database() as db:
+            base.ensure_job_slot(db)
             db.execute('''INSERT INTO import_jobs(id,status,provider,dataset_id,snapshot,signal_path,shelf_id,athlete_id,
                 created_shelf,task_type,classification,acknowledge_review,adopt_detected_task,created_at,updated_at,manifest,progress,error,result)
                 VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',
@@ -453,6 +454,7 @@ def register(router: APIRouter, base):
                 names = [r['name'] for r in db.execute('SELECT name FROM recording_files WHERE recording_id=?', (row['shelf_id'],))]
                 if any(is_signal_name(name) for name in names):
                     raise HTTPException(409, 'That shelf already has an EEG signal. Remove it before retrying the import.')
+            base.ensure_job_slot(db)
             db.execute("UPDATE import_jobs SET status='queued', error=NULL, result=NULL, updated_at=? WHERE id=?",
                        (base.now(), job_id))
         CANCELS[job_id] = threading.Event()

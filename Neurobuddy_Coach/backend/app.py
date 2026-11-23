@@ -17,14 +17,16 @@ import sqlite3
 import threading
 from uuid import uuid4
 
-from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
-from fastapi.responses import FileResponse, Response
+from fastapi import FastAPI, File, Form, HTTPException, Query, Request, UploadFile
+from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from neurobuddy_v2 import __version__ as PIPELINE_VERSION
 from neurobuddy_v2.pipeline import process
 from neurobuddy_v2.comparative import baseline_minimum, run_athlete_workflow
+
+from .viewer import viewer_for
 
 ROOT = Path(__file__).resolve().parents[1]
 STORAGE = Path(os.environ.get('NEUROBUDDY_DATA_DIR', str(ROOT / 'data'))).resolve()
@@ -39,7 +41,9 @@ WORKERS = ThreadPoolExecutor(max_workers=1, thread_name_prefix='neurobuddy-v071'
 _REPORT_ID = re.compile(r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$')
 SIGNAL_SUFFIXES = ('.set', '.edf', '.bdf', '.vhdr', '.fif', '.fif.gz')
 ALLOWED_SUFFIXES = SIGNAL_SUFFIXES + ('.fdt', '.eeg', '.vmrk', '.tsv', '.csv', '.txt', '.json')
-MAX_FILE_BYTES = int(os.environ.get('NEUROBUDDY_MAX_FILE_BYTES', str(2 * 1024**3)))
+MAX_FILE_BYTES = int(os.environ.get('NEUROBUDDY_MAX_FILE_BYTES', str(256 * 1024**2)))
+MAX_LIBRARY_BYTES = int(os.environ.get('NEUROBUDDY_MAX_LIBRARY_BYTES', str(2 * 1024**3)))
+MAX_ACTIVE_JOBS = int(os.environ.get('NEUROBUDDY_MAX_ACTIVE_JOBS', '4'))
 
 
 def now():
@@ -66,7 +70,7 @@ def database():
         db.close()
 
 
-with database() as db:
+def init_schema(db):
     db.executescript('''
     PRAGMA journal_mode=WAL;
     CREATE TABLE IF NOT EXISTS teams (id TEXT PRIMARY KEY, name TEXT NOT NULL, created_at TEXT NOT NULL);
@@ -89,8 +93,78 @@ with database() as db:
       WHERE status IN ('queued','running');
     ''')
 
+
+def _apply_storage(root: Path):
+    global STORAGE, FILES, REPORTS, DB_PATH
+    STORAGE = root
+    FILES = STORAGE / 'recordings'
+    REPORTS = STORAGE / 'reports'
+    DB_PATH = STORAGE / 'coach.sqlite3'
+    for folder in (STORAGE, FILES, REPORTS):
+        folder.mkdir(parents=True, exist_ok=True)
+
+
+_PREVIEW_STORAGE = False
+
+
+def use_preview_storage():
+    """Keep a preview host's library off the production files for this deployment."""
+    global _PREVIEW_STORAGE
+    if _PREVIEW_STORAGE:
+        return
+    with LOCK:
+        if _PREVIEW_STORAGE:
+            return
+        base = Path(os.environ.get('NEUROBUDDY_DATA_DIR', str(ROOT / 'data'))).resolve()
+        _apply_storage(base / 'preview')
+        with database() as db:
+            init_schema(db)
+        _PREVIEW_STORAGE = True
+
+
+def _active_jobs(db) -> int:
+    active = db.execute("SELECT COUNT(*) FROM jobs WHERE status IN ('queued','running')").fetchone()[0]
+    try:
+        active += db.execute("SELECT COUNT(*) FROM import_jobs WHERE status IN ('queued','running')").fetchone()[0]
+    except sqlite3.OperationalError:
+        pass
+    return active
+
+
+def ensure_job_slot(db):
+    if _active_jobs(db) >= MAX_ACTIVE_JOBS:
+        raise HTTPException(429, 'Too many analyses are already running. Wait for one to finish.')
+
+
+def ensure_library_room(db, extra_bytes: int):
+    used = db.execute('SELECT COALESCE(SUM(size_bytes),0) FROM recording_files').fetchone()[0]
+    if used + extra_bytes > MAX_LIBRARY_BYTES:
+        raise HTTPException(413, 'The library is full. Delete a recording before uploading more.')
+
+
+with database() as db:
+    init_schema(db)
+
 app = FastAPI(title='Neurobuddy Coach Baseline', version='0.2.1')
 app.mount('/v2', StaticFiles(directory=str(ROOT / 'v2')), name='v2')
+
+
+@app.middleware('http')
+async def require_signed_in_viewer(request: Request, call_next):
+    if request.url.path.startswith('/api/'):
+        viewer = viewer_for(request.headers)
+        if not viewer.get('verified'):
+            return JSONResponse(
+                {'error': 'Sign in required.'},
+                status_code=401,
+                headers={'cache-control': 'private, no-store'},
+            )
+        if viewer.get('stage') == 'preview':
+            use_preview_storage()
+    response = await call_next(request)
+    if request.url.path.startswith('/api/'):
+        response.headers['cache-control'] = 'private, no-store'
+    return response
 
 
 class Named(BaseModel):
@@ -231,6 +305,7 @@ async def upload_recording(athlete_id: str, classification: str = Form(...), upl
             sizes.append(size)
         with LOCK, database() as db:
             must_get(db,'athletes',athlete_id)
+            ensure_library_room(db, sum(sizes))
             db.execute('INSERT INTO recordings(id,athlete_id,classification,source_name,directory,created_at) VALUES(?,?,?,?,?,?)',
                        (key,athlete_id,classification,signals[0],key,now()))
             for name,size in zip(names,sizes):
@@ -320,6 +395,7 @@ def create_job(request:JobRequest):
     if request.mode not in ('single','athlete'):
         raise HTTPException(400,'Select a valid processing mode.')
     with LOCK, database() as db:
+        ensure_job_slot(db)
         if request.mode=='single':
             record = must_get(db,'recordings',request.target_id)
             athlete_id = record['athlete_id']
