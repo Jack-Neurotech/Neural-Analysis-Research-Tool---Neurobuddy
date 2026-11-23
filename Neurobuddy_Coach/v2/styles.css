@@ -130,4 +130,8 @@
 .sidebar-player{margin-top:auto;margin-bottom:auto;display:grid;gap:8px;min-width:0}
 .sidebar-player video{width:100%;max-height:168px;border-radius:10px;background:#070b16;border:1px solid #323f59}
 .sidebar-player small{color:#91a0ba;font-size:10px;line-height:1.4;padding:0 4px}
-.sidebar-bottom{margin-top:0}
+.sidebar-bottom{margin-top:0;flex-wrap:wrap}
+.share-link-button{margin-left:auto}
+.header-actions-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.share-url-field{display:grid;gap:4px;color:#9de8da;font-size:10px;letter-spacing:.4px;font-weight:700}
+.share-url-field input{min-width:min(360px,70vw);background:#0e1a2c;border:1px solid #2a5854;color:#e7fff8;border-radius:9px;padding:8px 10px;font-size:12px}

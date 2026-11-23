@@ -13,7 +13,12 @@
   const isSignal = n => signalExt.some(ext => (n||'').toLowerCase().endsWith(ext));
   const fmtSize = bytes => bytes>=1048576?(bytes/1048576).toFixed(1)+' MB':Math.max(1,Math.round(bytes/1024))+' KB';
   const badge = (value) => `<span class="status ${['completed','ready','COMPLETE','Within range'].includes(value)?'ready':['failed','Abnormal'].includes(value)?'fail':''}">${html(value||'unknown').replaceAll('_',' ')}</span>`;
-  const artifactUrl = (id,path) => `/api/v2/artifacts/${encodeURIComponent(id)}/${path.split('/').map(encodeURIComponent).join('/')}`;
+  const artifactUrl = (id,path) => {
+    if (window.NeurobuddyShare && window.NeurobuddyShare.mode === 'share') {
+      return window.NeurobuddyShare.artifactUrl(id, path);
+    }
+    return `/api/v2/artifacts/${encodeURIComponent(id)}/${path.split('/').map(encodeURIComponent).join('/')}`;
+  };
   async function api(path,options={}){
     let response;
     try{response=await fetch(BASE+path,{...options,cache:'no-store'});}
@@ -361,7 +366,47 @@
   $('preview-package').addEventListener('click',()=>{if(state.advancedSelection){$('package-json').textContent=JSON.stringify(state.advancedSelection,null,2);$('package-json').hidden=false;}});
   $('download-package').addEventListener('click',()=>{if(state.advancedSelection)downloadJSON(state.advancedSelection,`neurobuddy-${state.advancedSelection.type}-analysis.json`);});
   window.addEventListener('hashchange',()=>navigate(['library','analysis','advanced'].includes(location.hash.slice(1))?location.hash.slice(1):'library'));
-  setInterval(()=>safe(async()=>{try{await api('/v2/health');$('online-dot').classList.remove('off');$('server-status').textContent='Local server connected';}catch{$('online-dot').classList.add('off');$('server-status').textContent='Server disconnected';}}),15000);
+  function applyHealth(payload){
+    $('online-dot').classList.remove('off');
+    const share=payload&&payload.mode==='shareable-link';
+    $('server-status').textContent=share?'Shareable link ready':'Local server connected';
+    const kind=$('workspace-kind');
+    if(kind)kind.textContent=share?'Send this URL · sample workspace':'Local research workspace';
+  }
+  function currentShareLink(){
+    return location.origin+location.pathname+location.search;
+  }
+  function showShareUrl(){
+    const field=$('share-url');
+    if(!field)return;
+    field.value=currentShareLink();
+  }
+  async function copyShareLink(){
+    const link=currentShareLink();
+    showShareUrl();
+    const field=$('share-url');
+    if(field){field.focus();field.select();}
+    let copied=false;
+    try{
+      if(window.NeurobuddyShare&&window.NeurobuddyShare.copyLink){
+        await window.NeurobuddyShare.copyLink();
+        copied=true;
+      }else if(navigator.clipboard&&navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(link);
+        copied=true;
+      }
+    }catch(_){copied=false;}
+    notify(copied?'Link copied. Send it — anyone who clicks it opens Neurobuddy Coach.':'Send this link: '+link,'success');
+  }
+  function bindShareButtons(){
+    for(const id of ['copy-share-link','copy-share-link-header']){
+      const button=$(id);
+      if(button)button.addEventListener('click',()=>safe(copyShareLink));
+    }
+  }
+  bindShareButtons();
+  showShareUrl();
+  setInterval(()=>safe(async()=>{try{applyHealth(await api('/v2/health'));}catch{$('online-dot').classList.add('off');$('server-status').textContent='Server disconnected';}}),15000);
   setInterval(()=>{if(state.tab==='analysis'&&state.jobs.some(j=>['queued','running'].includes(j.status)))safe(loadJobs);},2500);
-  safe(async()=>{await api('/v2/health');$('online-dot').classList.remove('off');$('server-status').textContent='Local server connected';await loadLibrary();await loadJobs();navigate(['library','analysis','advanced'].includes(location.hash.slice(1))?location.hash.slice(1):'library');});
+  safe(async()=>{applyHealth(await api('/v2/health'));await loadLibrary();await loadJobs();navigate(['library','analysis','advanced'].includes(location.hash.slice(1))?location.hash.slice(1):'library');});
 })();

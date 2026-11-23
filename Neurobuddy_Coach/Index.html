@@ -7,6 +7,7 @@
   <title>Neurobuddy | Coach EEG Atlas Shelf Workspace v0.3.1</title>
   <link rel="icon" href="v2/assets/cyber-neuron.png" type="image/png">
   <link rel="stylesheet" href="v2/styles.css">
+  <script src="v2/hosted-api.js"></script>
   <script defer src="v2/shelf-ui.js"></script>
   <script defer src="v2/app.js"></script>
 </head>
@@ -25,7 +26,9 @@
         <video id="walkthrough-player" controls preload="metadata" playsinline src="v2/videos/all-tests.mp4"></video>
         <small id="walkthrough-label">Oddball, motor imagery, then sleep</small>
       </div>
-      <div class="sidebar-bottom"><div class="online-dot" id="online-dot"></div><div><strong id="server-status">Checking server</strong><small>Local research workspace</small></div></div>
+      <div class="sidebar-bottom"><div class="online-dot" id="online-dot"></div><div><strong id="server-status">Checking server</strong><small id="workspace-kind">Local research workspace</small></div>
+        <button type="button" class="secondary-button small-btn share-link-button" id="copy-share-link" title="Copy a URL you can send">Copy link</button>
+      </div>
     </aside>
 
     <main class="main">
@@ -37,7 +40,13 @@
             <h1>EEG Dataset Library</h1>
             <p>Your central EEG repository. Organize teams, athletes and test-specific recording shelves, then analyze real EEG data.</p>
           </div>
-          <div class="header-chip"><span class="online-dot"></span><span id="published-label">No dataset published</span></div>
+          <div class="header-actions-row">
+            <div class="header-chip"><span class="online-dot"></span><span id="published-label">No dataset published</span></div>
+            <label class="share-url-field">Shareable link
+              <input id="share-url" type="text" readonly value="" aria-label="Shareable link you can send">
+            </label>
+            <button type="button" class="primary-button" id="copy-share-link-header">Copy shareable link</button>
+          </div>
         </header>
         <div class="workflow-toolbar" aria-label="EEG shelf intake settings">
   <div class="workflow-intro"><span class="tiny-symbol">◫</span><div><strong>EEG Shelf Setup</strong><small>Configure the next shelf, or select an existing shelf to update it</small></div></div>

@@ -21,6 +21,8 @@ python -m uvicorn backend.app:app --host 127.0.0.1 --port 8765 --reload
 
 Open **http://127.0.0.1:8765/**. Do **not** launch `Index.html` through VS Code Live Server, as scientific data and persistent state require FastAPI. Windows: create a venv with `py -m venv .venv`, activate with `.venv\Scripts\activate`, and use `python -m ...` for the rest.
 
+**Shareable link:** After the app is published, use **Copy shareable link** in the header. Anyone who receives and clicks that URL opens the Coach UI. If the FastAPI server is not running, the page still loads with sample Demo Track Club data so the link is usable. Full MNE EEG processing stays on the local uvicorn server.
+
 The app creates `data/coach.sqlite3`, `data/recordings/<uuid>/` and `data/reports/<job-uuid>/` at first run. Set `NEUROBUDDY_DATA_DIR` before starting to redirect persistence.
 
 ## Three-tab website
