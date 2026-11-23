@@ -1,0 +1,9 @@
+[project]
+name = "neurobuddy-coach"
+version = "0.7.1"
+description = "Neurobuddy Coach EEG shelf workspace"
+readme = "README.md"
+requires-python = ">=3.11"
+
+[tool.vercel]
+entrypoint = "backend.app:app"
