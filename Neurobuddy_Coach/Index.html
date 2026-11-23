@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <title>Neurobuddy | Coach EEG Atlas Shelf Workspace v0.3.1</title>
+  <link rel="icon" href="v2/assets/cyber-neuron.png" type="image/png">
+  <link rel="stylesheet" href="v2/styles.css">
+  <script defer src="v2/shelf-ui.js"></script>
+  <script defer src="v2/app.js"></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" aria-label="Application navigation">
+      <div class="brand"><figure class="nb-neuron" aria-label="Biomechanical neuron illustration"><div class="nb-neuron__stage"><img class="nb-neuron__image" src="v2/assets/cyber-neuron.png" alt="A detailed neuron fused with chrome robotic armor, glowing red conduits, myelinated axon, and dendritic branches" width="1448" height="1086"><span class="nb-neuron__signal" aria-hidden="true"></span><span class="nb-neuron__gloss" aria-hidden="true"></span></div></figure><div><strong>Neuro-buddy</strong><small>COACH EEG ATLAS · 0.7.1</small></div></div>
+      <div class="nav-label">WORKSPACE</div>
+      <nav class="nav" aria-label="Main">
+        <button type="button" data-tab="library" class="nav-button active"><span class="nb-tab-icon" aria-hidden="true"><img src="v2/assets/cyber-neuron.png" alt=""></span> Dataset Library</button>
+        <button type="button" data-tab="analysis" class="nav-button"><span class="nb-tab-icon" aria-hidden="true"><img src="v2/assets/cyber-neuron.png" alt=""></span> Analysis <span id="job-count" class="nav-count">0</span></button>
+        <button type="button" data-tab="advanced" class="nav-button"><span class="nb-tab-icon" aria-hidden="true"><img src="v2/assets/cyber-neuron.png" alt=""></span> Advanced Analysis</button>
+      </nav>
+      <div class="sidebar-player">
+        <div class="nav-label">WALKTHROUGH</div>
+        <video id="walkthrough-player" controls preload="metadata" playsinline src="v2/videos/all-tests.mp4"></video>
+        <small id="walkthrough-label">Oddball, motor imagery, then sleep</small>
+      </div>
+      <div class="sidebar-bottom"><div class="online-dot" id="online-dot"></div><div><strong id="server-status">Checking server</strong><small>Local research workspace</small></div></div>
+    </aside>
+
+    <main class="main">
+      <div id="global-banner" class="banner" role="status" aria-live="polite" hidden></div>
+      <section id="view-library" class="view">
+        <header class="page-header">
+          <div>
+            <div class="eyebrow">WORKSPACE / DATASET LIBRARY</div>
+            <h1>EEG Dataset Library</h1>
+            <p>Your central EEG repository. Organize teams, athletes and test-specific recording shelves, then analyze real EEG data.</p>
+          </div>
+          <div class="header-chip"><span class="online-dot"></span><span id="published-label">No dataset published</span></div>
+        </header>
+        <div class="workflow-toolbar" aria-label="EEG shelf intake settings">
+  <div class="workflow-intro"><span class="tiny-symbol">◫</span><div><strong>EEG Shelf Setup</strong><small>Configure the next shelf, or select an existing shelf to update it</small></div></div>
+  <label class="field">TEST TYPE
+    <select id="test-type"><option value="oddball">Oddball</option><option value="sleep">Sleep</option><option value="motor">Motor-imagery</option><option value="unspecified" selected>Unspecified</option></select>
+  </label>
+  <label class="field">FILE TYPE
+    <select id="file-type"><option value="baseline" selected>Baseline EEG</option><option value="testing">Testing EEG</option></select>
+  </label>
+  <div id="type-requirements" class="requirements-summary">EEG signal required. No task-specific events required.</div>
+</div>
+        <div class="workspace-grid">
+          <section id="library-reception-panel" class="panel library-panel" aria-labelledby="library-title">
+            <div class="panel-title">
+              <div><div class="eyebrow">CENTRAL REPOSITORY</div><h2 id="library-title">Teams &amp; Athletes</h2></div>
+              <div class="library-panel-actions"><button type="button" id="add-team" class="primary-button small-btn">+ New Team</button><button id="clear-library-preview" class="secondary-button small-btn" type="button" hidden>Clear preview</button><input id="library-search" class="search-field" type="search" placeholder="Search teams, athletes, EEG files" aria-label="Search dataset library"></div>
+            </div>
+            <div id="library-tree" class="tree" aria-live="polite">
+              <div class="library-receiver"><span class="receiver-icon">▱</span><strong>Your EEG repository starts here</strong><p>Create a Team, add an Athlete, and populate Baseline or Testing EEG shelves.</p><small>Oddball needs 2 baseline shelves + 1 testing shelf. Sleep, motor, and unspecified stay at 3 + 1.</small></div>
+            </div>
+          </section>
+          <section class="panel processing-panel" aria-labelledby="processing-title">
+            <div class="eyebrow">PROCESSING WORKSPACE</div>
+            <h2 id="processing-title">EEG Processing</h2>
+            <p>Select or drag a recording, athlete or team from the library to analyze. Files stay organized in shelves.</p>
+            <label class="field">Processing mode<select id="processing-mode"><option value="single">Process Single EEG</option><option value="athlete">Test Athlete (oddball 2 baselines, otherwise 3)</option><option value="team">Test Team (eligible athletes)</option></select></label>
+            <div id="processing-drop" class="drop-zone" tabindex="0" role="group" aria-label="EEG processing selection. Use Select on any actual library row as a keyboard alternative."><span class="drop-icon"><img src="v2/assets/cyber-neuron.png" alt=""></span><strong id="drop-title">Drop a recording shelf here</strong><p id="drop-details">Or use Select on a recording in the library.</p></div>
+            <div id="selected-target" class="selected-target" hidden></div>
+            <button type="button" class="primary-button wide" id="run-processing" disabled>Run EEG Pipeline</button>
+            <div class="helper">Oddball comparison needs 2 compatible baseline shelves and 1 testing shelf of the oddball test type. Sleep, motor, and unspecified stay at 3 baselines and 1 testing recording of that same test type. Team processing evaluates eligible athletes independently. The experimental artifact detector never alters original data.</div>
+          </section>
+        </div>
+      </section>
+
+      <section id="view-analysis" class="view" hidden>
+        <header class="page-header"><div><div class="eyebrow">WORKSPACE / ANALYSIS</div><h1>Scientific Analysis</h1><p>Results from Neurobuddy v0.7.1, including general, oddball, motor and sleep routes plus longitudinal comparisons.</p></div><button class="secondary-button" id="refresh-jobs">Refresh results</button></header>
+        <div class="workspace-grid analysis-grid"><section class="panel"><div class="eyebrow">PIPELINE RUNS</div><h2>Reports & Jobs</h2><div id="job-list" class="run-list"><div class="empty">No analysis jobs yet.</div></div></section><section class="panel report-panel"><div id="report-content" class="report"><div class="empty">Select a completed analysis to open its original interactive HTML report.</div></div></section></div>
+      </section>
+
+      <section id="view-advanced" class="view" hidden>
+        <header class="page-header"><div><div class="eyebrow">WORKSPACE / ADVANCED ANALYSIS</div><h1>Advanced Athlete Analysis</h1><p>Versioned scientific results, athlete report packages, and JSON exports. AI interpretation is not connected.</p></div><span class="not-connected">AI backend: Not connected</span></header>
+        <div class="workspace-grid"><section class="panel"><div class="eyebrow">ANALYSIS PACKAGES</div><h2>Teams & Athletes</h2><p class="panel-intro">Drag a Team chip to prepare multiple athlete results, or an Athlete chip for that athlete's reports. Delete athlete removes that athlete and their EEG shelves. Delete team removes that team, its athletes, and their shelves. Analysis reports stay.</p><div id="advanced-tree" class="tree"><div class="empty">Run EEG analyses to create packages.</div></div></section><section class="panel"><div class="eyebrow">FUTURE AI PROCESSING</div><h2>Package Preparation</h2><div id="advanced-drop" class="drop-zone" tabindex="0" role="group" aria-label="Select a result package from the left"><span class="drop-icon"><img src="v2/assets/cyber-neuron.png" alt=""></span><strong>Select an athlete or team result</strong><p>Prepare local JSON. No external services are called.</p></div><div id="advanced-selection" class="helper"></div><div class="actions"><button type="button" class="secondary-button" id="preview-package" disabled>Preview JSON</button><button type="button" class="secondary-button" id="download-package" disabled>Download package</button></div><button class="primary-button wide" type="button" disabled title="An AI backend has not been connected">Process with AI · Not Connected</button><pre class="json-preview" id="package-json" hidden tabindex="0"></pre></section></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="name-dialog" class="coach-dialog" aria-labelledby="name-dialog-title">
+    <form id="name-form"><div class="dialog-title"><h2 id="name-dialog-title">Create Team</h2><button type="button" class="icon-button" id="name-cancel" aria-label="Close">×</button></div>
+      <label class="field">Name<input id="name-value" type="text" maxlength="120" required autocomplete="off" placeholder="Enter name"></label>
+      <div class="dialog-actions"><button type="button" id="name-cancel-bottom" class="secondary-button">Cancel</button><button class="primary-button" type="submit">Create</button></div>
+    </form>
+  </dialog>
+  <dialog id="import-dialog" class="coach-dialog import-dialog" aria-labelledby="import-title">
+    <div class="dialog-title"><div><div class="eyebrow">EEG FILE IMPORT</div><h2 id="import-title">Import recording</h2></div><button type="button" class="icon-button" id="import-close" aria-label="Close">×</button></div>
+    <p id="import-hint" class="helper">Choose an import source.</p>
+    <div id="import-actions" class="import-source-options"><button id="choose-downloads" type="button" class="source-option"><strong>↓ Downloads</strong><small>Browse local EEG files</small></button><button id="choose-connector" type="button" class="source-option"><strong>◇ Connector</strong><small>Explore public OpenNeuro datasets</small></button></div>
+    <div id="local-import" hidden><p class="helper">Select a real EEG signal file. Add companion and event files to this shelf afterward.</p><input type="file" id="native-file-picker" accept=".set,.edf,.bdf,.vhdr,.fif,.gz" hidden><button id="browse-local" class="primary-button" type="button">Choose EEG from Downloads</button><p class="helper">Your system file picker opens once. Choose your EEG file from Downloads or another location.</p><p id="import-status" class="import-status" role="status" aria-live="polite" hidden></p><button id="retry-upload" class="secondary-button" type="button" hidden>Retry upload of selected files</button></div>
+    <div id="openneuro-import" hidden>
+      <div id="openneuro-setup">
+        <label class="field">OpenNeuro Dataset ID or URL<input id="dataset-id" value="ds003061" placeholder="ds003061" autocomplete="off"></label>
+        <div class="dialog-actions"><button class="primary-button" type="button" id="load-openneuro">Load Public Dataset</button></div>
+        <p class="helper">Browse a published OpenNeuro snapshot inside Neurobuddy. Download once on an EEG signal. Companion, event, and metadata files that belong to that recording are selected automatically.</p>
+      </div>
+      <div id="openneuro-explorer" hidden>
+        <div id="openneuro-summary" class="dataset-summary"></div>
+        <div class="explorer-toolbar">
+          <button type="button" class="secondary-button small-btn" id="explorer-back" disabled>← Back</button>
+          <button type="button" class="secondary-button small-btn" id="explorer-forward" disabled>Forward →</button>
+          <nav id="explorer-crumbs" class="explorer-crumbs" aria-label="Folder path"></nav>
+          <button type="button" class="secondary-button small-btn" id="explorer-retry" hidden>Retry</button>
+          <button type="button" class="secondary-button small-btn" id="explorer-change">Change dataset</button>
+        </div>
+        <p id="explorer-status" class="helper" hidden></p>
+        <div class="explorer-layout">
+          <div id="openneuro-result" class="connector-explorer" aria-live="polite"></div>
+          <aside id="explorer-preview" class="explorer-preview"><p class="helper">Select a file to read it. Download saves only the EEG file you click. A TSV is saved only when you choose Add this TSV.</p></aside>
+        </div>
+        <div id="import-progress" class="import-progress" hidden></div>
+      </div>
+    </div>
+  </dialog>
+</body>
+</html>
