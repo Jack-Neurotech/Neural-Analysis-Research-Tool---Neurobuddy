@@ -1,0 +1,11 @@
+{
+  "sample_rate_hz": 0.0,
+  "n_channels": 0,
+  "duration_s": 1e-9,
+  "amplitude_rel": 1e-9,
+  "band_power_rel": 1e-6,
+  "psd_rel": 1e-6,
+  "z_abs": 1e-9,
+  "cv_abs": 1e-9,
+  "notes": "FFT/PSD use the same SciPy/MNE code paths. Allow 1e-6 relative drift from NumPy 2.x vs 1.26 and WASM libopenblas vs native OpenBLAS. Sampling frequency, channel names, and units must match exactly. Do not loosen these to hide an algorithm change."
+}

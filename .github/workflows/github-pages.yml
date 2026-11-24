@@ -1,0 +1,49 @@
+name: GitHub Pages
+
+on:
+  push:
+    branches: [neurobuddy-pyodide, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare static site
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          rsync -a Neurobuddy_Coach/ _site/ \
+            --exclude '__pycache__' \
+            --exclude '*.pyc' \
+            --exclude '.venv' \
+            --exclude 'data' \
+            --exclude 'tests' \
+            --exclude 'benchmarks'
+          # GitHub Pages is case-sensitive; keep both HTML entry names.
+          if [ -f _site/Index.html ] && [ ! -e _site/index.html ]; then
+            cp _site/Index.html _site/index.html
+          fi
+          touch _site/.nojekyll
+          test -f _site/v2/pyodide-worker.js
+          test -f _site/neurobuddy_v2/pipeline.py
+          test -f _site/neurobuddy_v2/browser_entry.py
+          test -f _site/pyodide/python-modules.json
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

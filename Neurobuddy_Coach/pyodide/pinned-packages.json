@@ -1,0 +1,43 @@
+{
+  "pyodide": "0.28.3",
+  "index_url_cdn": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/",
+  "index_url_local": "vendor/pyodide/",
+  "python": "3.13",
+  "loadPackage": {
+    "numpy": "2.2.5",
+    "scipy": "1.14.1",
+    "matplotlib": "3.8.4",
+    "pandas": "2.3.1",
+    "h5py": "3.13.0",
+    "scikit-learn": "1.7.0",
+    "micropip": "0.10.1",
+    "packaging": "24.2",
+    "pillow": "bundled-with-matplotlib",
+    "jinja2": "bundled"
+  },
+  "micropip": {
+    "mne": "1.8.0",
+    "pymatreader": "1.0.0",
+    "jsonschema": "4.23.0",
+    "fastjsonschema": "2.21.1",
+    "lazy-loader": "0.4",
+    "pooch": "1.8.2",
+    "tqdm": "4.67.1",
+    "platformdirs": "4.3.6",
+    "decorator": "5.1.1"
+  },
+  "optional_incompatible": {
+    "yasa": "Requires numba + lightgbm native extensions; not available in Pyodide. Sleep scoring from provided annotations still runs.",
+    "lightgbm": "No WebAssembly wheel.",
+    "antropy": "Optional YASA feature cache; skipped when absent.",
+    "numba": "No WebAssembly wheel."
+  },
+  "server_only": [
+    "fastapi",
+    "uvicorn",
+    "python-multipart",
+    "httpx",
+    "starlette",
+    "pydantic"
+  ]
+}

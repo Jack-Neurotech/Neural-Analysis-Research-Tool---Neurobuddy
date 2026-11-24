@@ -1,0 +1,641 @@
+{
+  "mode": "single",
+  "analysis": {
+    "schema_version": "2.0.0",
+    "pipeline_version": "0.7.1-optimized",
+    "report_id": "nb-8d26fe79fbdb74fd",
+    "recording_id": "8d26fe79fbdb74fd78f35e25",
+    "processing_status": "COMPLETE",
+    "input_manifest": [
+      {
+        "name": "sub-val_ses-01_task-rest_eeg.fif",
+        "role": "signal",
+        "sha256": "8d26fe79fbdb74fd78f35e25b92846343f0f6062caca3f3650df4ed28736c5c3",
+        "bytes": 9140
+      }
+    ],
+    "classification": {
+      "task_family": "GENERAL",
+      "subtype": null,
+      "evidence": [],
+      "confidence_tier": "fallback_general",
+      "analysis_readiness": {
+        "shared_eeg": true,
+        "erp": false,
+        "reaction_time": false,
+        "motor_erd": false,
+        "hypnogram": false
+      },
+      "status": "READY",
+      "conflicts": []
+    },
+    "routing": {
+      "selected": "GENERAL",
+      "subtype": null,
+      "shared_eeg_ionm_executed": true
+    },
+    "recording": {
+      "file": "sub-val_ses-01_task-rest_eeg.fif",
+      "duration_s": 2,
+      "sample_rate_hz": 256,
+      "n_channels": 4,
+      "eeg_channels": 4
+    },
+    "quality": {
+      "ionm_quality": {
+        "C3": {
+          "quality": "good",
+          "finite_fraction": 1,
+          "mean": 3.980815890302678e-7,
+          "rms": 0.000008485033185159548,
+          "standard_deviation": 0.000008475689895326157,
+          "variance": 7.183731920173392e-11,
+          "peak_to_peak": 0.000027320398500951458,
+          "minimum": -0.000012425850584163598,
+          "maximum": 0.000014894547916787862,
+          "snr_difference_proxy_db": 12.218501283446422,
+          "flatline": false,
+          "possible_clipping": false,
+          "clipping_edge_fraction": 0.00390625,
+          "flags": []
+        },
+        "C4": {
+          "quality": "good",
+          "finite_fraction": 1,
+          "mean": 5.51030549308217e-7,
+          "rms": 0.000008495045876626368,
+          "standard_deviation": 0.000008477155760024452,
+          "variance": 7.186216977971575e-11,
+          "peak_to_peak": 0.000027430412883034646,
+          "minimum": -0.000012551916430552568,
+          "maximum": 0.00001487849645248208,
+          "snr_difference_proxy_db": 10.67784940084705,
+          "flatline": false,
+          "possible_clipping": false,
+          "clipping_edge_fraction": 0.00390625,
+          "flags": []
+        },
+        "Cz": {
+          "quality": "good",
+          "finite_fraction": 1,
+          "mean": 2.5670118866648606e-7,
+          "rms": 0.000008480413657710987,
+          "standard_deviation": 0.000008476527608969856,
+          "variance": 7.185152030562823e-11,
+          "peak_to_peak": 0.00002662436413104763,
+          "minimum": -0.000012652814087347695,
+          "maximum": 0.000013971550043699932,
+          "snr_difference_proxy_db": 14.12622262549592,
+          "flatline": false,
+          "possible_clipping": false,
+          "clipping_edge_fraction": 0.00390625,
+          "flags": []
+        },
+        "Oz": {
+          "quality": "fair",
+          "finite_fraction": 1,
+          "mean": 8.384970726286282e-7,
+          "rms": 0.000008617276414350992,
+          "standard_deviation": 0.000008576384754692569,
+          "variance": 7.35543754605231e-11,
+          "peak_to_peak": 0.000029511672628407612,
+          "minimum": -0.00001267022247972511,
+          "maximum": 0.0000168414501486825,
+          "snr_difference_proxy_db": 6.403922142268582,
+          "flatline": false,
+          "possible_clipping": false,
+          "clipping_edge_fraction": 0.00390625,
+          "flags": []
+        }
+      },
+      "ionm_artifacts": {
+        "C3": {
+          "artifact_flags": [],
+          "artifact_present": false,
+          "transient_count": 0,
+          "stimulation_threshold_count": 0,
+          "transient_first_times_s": [],
+          "line_noise": {
+            "assessable": true,
+            "prominence_ratio": 5.460711781374049,
+            "detected": false,
+            "mains_frequency_hz": 60
+          },
+          "electrode_problem": null
+        },
+        "C4": {
+          "artifact_flags": [],
+          "artifact_present": false,
+          "transient_count": 0,
+          "stimulation_threshold_count": 0,
+          "transient_first_times_s": [],
+          "line_noise": {
+            "assessable": true,
+            "prominence_ratio": 5.171395177833683,
+            "detected": false,
+            "mains_frequency_hz": 60
+          },
+          "electrode_problem": null
+        },
+        "Cz": {
+          "artifact_flags": [],
+          "artifact_present": false,
+          "transient_count": 0,
+          "stimulation_threshold_count": 0,
+          "transient_first_times_s": [],
+          "line_noise": {
+            "assessable": true,
+            "prominence_ratio": 5.3284635929743285,
+            "detected": false,
+            "mains_frequency_hz": 60
+          },
+          "electrode_problem": null
+        },
+        "Oz": {
+          "artifact_flags": [],
+          "artifact_present": false,
+          "transient_count": 0,
+          "stimulation_threshold_count": 0,
+          "transient_first_times_s": [],
+          "line_noise": {
+            "assessable": true,
+            "prominence_ratio": 1.574910427331134,
+            "detected": false,
+            "mains_frequency_hz": 60
+          },
+          "electrode_problem": null
+        }
+      },
+      "ionm_outliers": {
+        "C3": {
+          "mad": 0.000008344573749253636,
+          "robust_z_max": 1.1690673245801926,
+          "rms_ratio_to_median_channel": 0.9994103271586436,
+          "outlier": false,
+          "review_reasons": []
+        },
+        "C4": {
+          "mad": 0.000008308607039655524,
+          "robust_z_max": 1.1597992580558574,
+          "rms_ratio_to_median_channel": 1.0005896728413564,
+          "outlier": false,
+          "review_reasons": []
+        },
+        "Cz": {
+          "mad": 0.000008343279412031497,
+          "robust_z_max": 1.128237107015968,
+          "rms_ratio_to_median_channel": 0.998866215740581,
+          "outlier": false,
+          "review_reasons": []
+        },
+        "Oz": {
+          "mad": 0.00000826755651167287,
+          "robust_z_max": 1.3067788807757335,
+          "rms_ratio_to_median_channel": 1.014986606716618,
+          "outlier": false,
+          "review_reasons": []
+        }
+      }
+    },
+    "shared_metrics": {
+      "channel_statistics": {
+        "C3": {
+          "metrics_available": true,
+          "finite_fraction": 1,
+          "mean": 2.84589848510014e-8,
+          "standard_deviation": 0.00000849657553347346,
+          "variance": 7.219179579601981e-11,
+          "rms": 0.000008496623194530788,
+          "peak_to_peak": 0.000025739904231159016,
+          "min": -0.000012737900760839693,
+          "max": 0.000013002003470319323,
+          "median": 1.214635965141042e-7,
+          "mad": 0.000008460784432173796,
+          "skewness": -0.005735675001651492,
+          "kurtosis": -1.4917481323238693,
+          "zero_crossings": 39,
+          "zero_crossing_rate": 0.076171875,
+          "crest_factor": 1.5302553935413559,
+          "high_amplitude_fraction": 0,
+          "total_spectral_power": 7.21917957960198e-11,
+          "dominant_frequency": 10,
+          "peak_alpha_frequency": 10,
+          "spectral_entropy": 0.04147012080906026,
+          "spectral_edge": 10,
+          "total_band_power": 7.20582337084981e-11,
+          "delta_power": 5.1291263082907605e-15,
+          "delta_relative": 0.00007118029466334065,
+          "theta_power": 6.2738056795486714e-15,
+          "theta_relative": 0.00008706577106689167,
+          "alpha_power": 7.202568576624978e-11,
+          "alpha_relative": 0.9995483105736399,
+          "beta_power": 2.114501026047456e-14,
+          "beta_relative": 0.0002934433606298741,
+          "theta_delta_ratio": 1.2231723889130284,
+          "alpha_theta_ratio": 11480.381995419279,
+          "beta_alpha_ratio": 0.00029357596578945467,
+          "beta_theta_ratio": 3.370364231937082
+        },
+        "C4": {
+          "metrics_available": true,
+          "finite_fraction": 1,
+          "mean": 2.242725483103669e-8,
+          "standard_deviation": 0.000008470408129745567,
+          "variance": 7.17478138844598e-11,
+          "rms": 0.000008470437820220337,
+          "peak_to_peak": 0.000025240467039111536,
+          "min": -0.000012682948181463871,
+          "max": 0.000012557518857647665,
+          "median": 1.078563656164988e-7,
+          "mad": 0.000008437669450245266,
+          "skewness": -0.004263990664179721,
+          "kurtosis": -1.4932330517141412,
+          "zero_crossings": 48,
+          "zero_crossing_rate": 0.09375,
+          "crest_factor": 1.4973190820417306,
+          "high_amplitude_fraction": 0,
+          "total_spectral_power": 7.174781388445982e-11,
+          "dominant_frequency": 12,
+          "peak_alpha_frequency": 12,
+          "spectral_entropy": 0.04428564422541928,
+          "spectral_edge": 12,
+          "total_band_power": 7.159961347934172e-11,
+          "delta_power": 4.290941865524828e-15,
+          "delta_relative": 0.00005992967918413236,
+          "theta_power": 3.679579014699396e-15,
+          "theta_relative": 0.00005139104578771289,
+          "alpha_power": 7.15709902944795e-11,
+          "alpha_relative": 0.9996002326902158,
+          "beta_power": 2.0652663982007477e-14,
+          "beta_relative": 0.00028844658481244856,
+          "theta_delta_ratio": 0.8575224577761423,
+          "alpha_theta_ratio": 19450.863810387968,
+          "beta_alpha_ratio": 0.00028856194244388547,
+          "beta_theta_ratio": 5.612779043337027
+        },
+        "Cz": {
+          "metrics_available": true,
+          "finite_fraction": 1,
+          "mean": 2.053430679747198e-8,
+          "standard_deviation": 0.000008495333283535504,
+          "variance": 7.217068759834612e-11,
+          "rms": 0.000008495358100521823,
+          "peak_to_peak": 0.00002521717942727264,
+          "min": -0.00001263625563296955,
+          "max": 0.00001258092379430309,
+          "median": 9.25135368312624e-9,
+          "mad": 0.000008492604111731694,
+          "skewness": -0.001011202933911887,
+          "kurtosis": -1.4948105314538127,
+          "zero_crossings": 31,
+          "zero_crossing_rate": 0.060546875,
+          "crest_factor": 1.4874306042723937,
+          "high_amplitude_fraction": 0,
+          "total_spectral_power": 7.217068759834612e-11,
+          "dominant_frequency": 8,
+          "peak_alpha_frequency": 8,
+          "spectral_entropy": 0.03775344840735621,
+          "spectral_edge": 8,
+          "total_band_power": 7.204891572272777e-11,
+          "delta_power": 4.136523955980605e-15,
+          "delta_relative": 0.000057412716270423234,
+          "theta_power": 4.019957370292611e-15,
+          "theta_relative": 0.0000557948350779208,
+          "alpha_power": 7.202324006122974e-11,
+          "alpha_relative": 0.9996436356988794,
+          "beta_power": 1.7519180171763907e-14,
+          "beta_relative": 0.00024315674977239796,
+          "theta_delta_ratio": 0.9718201594071608,
+          "alpha_theta_ratio": 17916.418863911287,
+          "beta_alpha_ratio": 0.00024324343304841847,
+          "beta_theta_ratio": 4.358051232391227
+        },
+        "Oz": {
+          "metrics_available": true,
+          "finite_fraction": 1,
+          "mean": 2.060394074451799e-8,
+          "standard_deviation": 0.000008487428980889197,
+          "variance": 7.203645070563784e-11,
+          "rms": 0.000008487453989743453,
+          "peak_to_peak": 0.000025392530915269163,
+          "min": -0.000012680933650699444,
+          "max": 0.000012711597264569718,
+          "median": 1.224193919568961e-7,
+          "mad": 0.000008366755496425071,
+          "skewness": 0.006067954648224877,
+          "kurtosis": -1.4958800002829606,
+          "zero_crossings": 80,
+          "zero_crossing_rate": 0.15625,
+          "crest_factor": 1.4976926272508662,
+          "high_amplitude_fraction": 0,
+          "total_spectral_power": 7.203645070563786e-11,
+          "dominant_frequency": 20,
+          "peak_alpha_frequency": 9,
+          "spectral_entropy": 0.0416913120088747,
+          "spectral_edge": 20,
+          "total_band_power": 7.190624165297618e-11,
+          "delta_power": 5.064507498308849e-15,
+          "delta_relative": 0.00007043209854786272,
+          "theta_power": 7.183481604380188e-15,
+          "theta_relative": 0.00009990066841551948,
+          "alpha_power": 7.202596920327169e-15,
+          "alpha_relative": 0.00010016650508710123,
+          "beta_power": 7.188679106695316e-11,
+          "beta_relative": 0.9997295007279495,
+          "theta_delta_ratio": 1.4183968740847774,
+          "alpha_theta_ratio": 1.0026610099391533,
+          "beta_alpha_ratio": 9980.676672892005,
+          "beta_theta_ratio": 10007.235352718046
+        }
+      },
+      "ionm_event_audit": {
+        "source": "no_annotations",
+        "counts": {
+          "candidate_events": 0,
+          "mne_accepted": 0,
+          "rejected_boundary": 0,
+          "rejected_artifact": 0,
+          "accepted_epochs": 0,
+          "notes": "No compatible discrete event annotations"
+        },
+        "marker_pairs": [],
+        "trial_statistics": [],
+        "tests": [],
+        "screening": [
+          {
+            "channel": "C3",
+            "quality": "good",
+            "artifact_present": false,
+            "change_detected": false,
+            "persistent_change": false,
+            "max_consecutive_changes": 0,
+            "trials_evaluated": 0,
+            "classification": "no_change_detected_by_rules",
+            "note": "Unvalidated engineering screening, not a diagnosis"
+          },
+          {
+            "channel": "C4",
+            "quality": "good",
+            "artifact_present": false,
+            "change_detected": false,
+            "persistent_change": false,
+            "max_consecutive_changes": 0,
+            "trials_evaluated": 0,
+            "classification": "no_change_detected_by_rules",
+            "note": "Unvalidated engineering screening, not a diagnosis"
+          },
+          {
+            "channel": "Cz",
+            "quality": "good",
+            "artifact_present": false,
+            "change_detected": false,
+            "persistent_change": false,
+            "max_consecutive_changes": 0,
+            "trials_evaluated": 0,
+            "classification": "no_change_detected_by_rules",
+            "note": "Unvalidated engineering screening, not a diagnosis"
+          },
+          {
+            "channel": "Oz",
+            "quality": "fair",
+            "artifact_present": false,
+            "change_detected": false,
+            "persistent_change": false,
+            "max_consecutive_changes": 0,
+            "trials_evaluated": 0,
+            "classification": "no_change_detected_by_rules",
+            "note": "Unvalidated engineering screening, not a diagnosis"
+          }
+        ]
+      },
+      "preprocessing": {
+        "raw_stats": "unfiltered EEG",
+        "filtered_quality": "1.0-45.0 Hz",
+        "artifact_removal_performed": false,
+        "line_noise_assessed_on": "unfiltered EEG"
+      }
+    },
+    "specialized_metrics": {
+      "general": {
+        "exploratory_hjorth": {
+          "C3": {
+            "hjorth_activity_v2": 7.183731920173392e-11,
+            "hjorth_mobility": 0.24521860780745622,
+            "hjorth_complexity": 1.0481797200284224
+          },
+          "C4": {
+            "hjorth_activity_v2": 7.186216977971575e-11,
+            "hjorth_mobility": 0.29310491126429633,
+            "hjorth_complexity": 1.0266616437677551
+          },
+          "Cz": {
+            "hjorth_activity_v2": 7.185152030562823e-11,
+            "hjorth_mobility": 0.19673785163912463,
+            "hjorth_complexity": 1.085853647341524
+          },
+          "Oz": {
+            "hjorth_activity_v2": 7.35543754605231e-11,
+            "hjorth_mobility": 0.48069506184390043,
+            "hjorth_complexity": 1.015819674267432
+          }
+        }
+      }
+    },
+    "visualizations": {
+      "figures": [
+        {
+          "title": "Raw vs. filtered EEG waveform",
+          "file": "waveform_raw_vs_filtered.png",
+          "sha256": "61daba5d4c7ce4ec9dfc2c83c3ddcd0c26092d8a36177d76151cf9c13362766e",
+          "mime": "image/png",
+          "data_table": {
+            "asset": "waveform_raw_vs_filtered_data.csv",
+            "rows": 512,
+            "columns": [
+              "time_s",
+              "channel",
+              "raw_uv",
+              "filtered_uv"
+            ],
+            "summary": {
+              "channel": "C3",
+              "display_seconds": 1.99609375,
+              "sample_rate_hz": 256,
+              "raw_recording_rms_v": 0.000008496623194530788
+            },
+            "supplementary_tables": []
+          }
+        },
+        {
+          "title": "EEG power spectrum",
+          "file": "power_spectrum.png",
+          "sha256": "872da362f77b0237fd68f2576f7b96491812bbe09bb84f8e6b949cb19b1f2601",
+          "mime": "image/png",
+          "data_table": {
+            "asset": "power_spectrum_data.csv",
+            "rows": 101,
+            "columns": [
+              "frequency_hz",
+              "channel",
+              "raw_psd_v2_per_hz",
+              "filtered_psd_v2_per_hz"
+            ],
+            "summary": {
+              "channel": "C3",
+              "frequency_resolution_hz": 0.5,
+              "raw_total_spectral_power_v2": 7.21917957960198e-11,
+              "raw_peak_alpha_frequency_hz": 10,
+              "raw_spectral_entropy": 0.04147012080906026
+            },
+            "supplementary_tables": []
+          }
+        },
+        {
+          "title": "Relative EEG band power",
+          "file": "relative_band_power.png",
+          "sha256": "3f98072d31ed33e94192b6a5dcc5ad8973fffb7de19b36111a1916c895114497",
+          "mime": "image/png",
+          "data_table": {
+            "asset": "relative_band_power_data.csv",
+            "rows": 4,
+            "columns": [
+              "channel",
+              "delta_relative_pct",
+              "theta_relative_pct",
+              "alpha_relative_pct",
+              "beta_relative_pct",
+              "delta_absolute_v2",
+              "theta_absolute_v2",
+              "alpha_absolute_v2",
+              "beta_absolute_v2"
+            ],
+            "summary": {
+              "channels_plotted": 4,
+              "relative_scale": "0–100 percent"
+            },
+            "supplementary_tables": []
+          }
+        },
+        {
+          "title": "Channel RMS",
+          "file": "channel_rms.png",
+          "sha256": "161f71349a7599091cbdaa181e14582f0ba41d118a4c0dbc0b2f0bbd04104160",
+          "mime": "image/png",
+          "data_table": {
+            "asset": "channel_rms_data.csv",
+            "rows": 4,
+            "columns": [
+              "channel",
+              "rms_filtered_uv",
+              "quality_grade",
+              "snr_difference_proxy_db",
+              "flatline"
+            ],
+            "summary": {
+              "channels_plotted": 4,
+              "filter_source": "IONM filtered EEG"
+            },
+            "supplementary_tables": []
+          }
+        },
+        {
+          "title": "Channel quality",
+          "file": "channel_quality.png",
+          "sha256": "a73caadbfc2d40c83206aca8b71b3fa6b4f67c5b3bb4ba627ef21d2d5a342fdb",
+          "mime": "image/png",
+          "data_table": {
+            "asset": "channel_quality_data.csv",
+            "rows": 4,
+            "columns": [
+              "channel",
+              "quality_score_0_bad_3_good",
+              "quality_grade",
+              "rms_filtered_uv"
+            ],
+            "summary": {
+              "channels_plotted": 4,
+              "grade_mapping": "0=bad, 1=poor, 2=fair, 3=good"
+            },
+            "supplementary_tables": []
+          }
+        }
+      ],
+      "brain_activity_player": {
+        "available": true,
+        "asset": "player_data.json",
+        "topomap_available": false,
+        "html_entrypoint": "report.html"
+      }
+    },
+    "statistics": {},
+    "events": {
+      "count": 0,
+      "normalized": []
+    },
+    "warnings": [
+      "Artifact flags are not artifact removal.",
+      "EEG-only fatigue/stress/recovery cannot be diagnosed from these metrics.",
+      "Hjorth parameters are descriptive; no direct stress or fatigue diagnosis.",
+      "IONM grading and SNR proxy are unvalidated heuristics, not a diagnosis.",
+      "No reliable scalp-wide montage; player uses channel-level fallback."
+    ],
+    "errors": [],
+    "provenance": {
+      "created_utc": "2026-11-24T00:39:33.027000+00:00",
+      "mne_version": "1.8.0",
+      "task_adapter_ruleset": "eegmmi-physionet-run-map-v1",
+      "model_classification_used": false,
+      "clinical_validation": false,
+      "artifact_mode": "legacy",
+      "mains_frequency_hz": 60,
+      "artifact_detector_version": null
+    }
+  },
+  "task_selected": "unspecified",
+  "task_detected": "general",
+  "task_warning": null,
+  "entrypoint": "report.html",
+  "package": "report.zip",
+  "outputs": [
+    "channel_quality.png",
+    "channel_quality_data.csv",
+    "channel_rms.png",
+    "channel_rms_data.csv",
+    "manifest.json",
+    "player_data.json",
+    "power_spectrum.png",
+    "power_spectrum_data.csv",
+    "relative_band_power.png",
+    "relative_band_power_data.csv",
+    "report.html",
+    "report.json",
+    "report.schema.json",
+    "report.zip",
+    "waveform_raw_vs_filtered.png",
+    "waveform_raw_vs_filtered_data.csv"
+  ],
+  "fingerprint": {
+    "file": "sub-val_ses-01_task-rest_eeg.fif",
+    "sample_rate_hz": 256,
+    "n_channels": 4,
+    "ch_names": [
+      "C3",
+      "C4",
+      "Cz",
+      "Oz"
+    ],
+    "n_times": 512,
+    "duration_s": 2,
+    "channel_types": [
+      "eeg",
+      "eeg",
+      "eeg",
+      "eeg"
+    ],
+    "mne_version": "1.8.0",
+    "amplitude_min": -0.000012737900760839693,
+    "amplitude_max": 0.000013002003470319323,
+    "amplitude_mean": 2.3006121806007016e-8
+  },
+  "elapsed_s": 4.104000091552734
+}

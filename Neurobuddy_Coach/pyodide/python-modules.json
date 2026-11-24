@@ -1,0 +1,22 @@
+{
+  "package": "neurobuddy_v2",
+  "files": [
+    "__init__.py",
+    "analysis.py",
+    "artifact_detection.py",
+    "browser_entry.py",
+    "comparative.py",
+    "events.py",
+    "figure_tables.py",
+    "intake.py",
+    "interactive_views.py",
+    "large_recordings.py",
+    "legacy_combined.py",
+    "pipeline.py",
+    "player.py",
+    "report.schema.json",
+    "reporting.py",
+    "routing.py",
+    "sleep_advanced.py"
+  ]
+}

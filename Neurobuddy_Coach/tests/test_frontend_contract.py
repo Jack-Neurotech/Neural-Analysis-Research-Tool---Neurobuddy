@@ -47,13 +47,13 @@ def test_unchanged_navigation_and_in_modal_status():
 def test_shareable_link_can_be_copied_without_live_server():
     page = source("Index.html")
     script = source("v2/app.js")
-    adapter = source("v2/hosted-api.js")
-    assert 'src="v2/hosted-api.js"' in page
+    adapter = source("v2/browser-api.js")
+    assert 'src="v2/browser-api.js"' in page
+    assert 'src="v2/browser-store.js"' in page
     assert 'id="copy-share-link"' in page
     assert 'id="copy-share-link-header"' in page
     assert 'id="share-url"' in page
     assert "copyShareLink" in script
-    assert "Shareable link ready" in script
-    assert "shareable-link" in adapter
     assert "navigator.clipboard.writeText" in adapter
-    assert "emptyStore" in adapter
+    assert "browser-native" in adapter
+    assert "pyodide-worker.js" in adapter

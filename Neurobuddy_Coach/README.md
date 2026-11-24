@@ -19,11 +19,11 @@ python -m pip install -r requirements.txt
 python -m uvicorn backend.app:app --host 127.0.0.1 --port 8765 --reload
 ```
 
-Open **http://127.0.0.1:8765/**. Do **not** launch `Index.html` through VS Code Live Server, as scientific data and persistent state require FastAPI. Windows: create a venv with `py -m venv .venv`, activate with `.venv\Scripts\activate`, and use `python -m ...` for the rest.
+Open **http://127.0.0.1:8765/** for the original FastAPI local server. Windows: create a venv with `py -m venv .venv`, activate with `.venv\Scripts\activate`, and use `python -m ...` for the rest.
 
-**Shareable link:** After the app is published, use **Copy shareable link** in the header. Anyone who receives and clicks that URL opens the Coach UI. If the FastAPI server is not running, the page still loads with sample Demo Track Club data so the link is usable. Full MNE EEG processing stays on the local uvicorn server.
+**Browser-native / shareable URL (no Python backend):** the `neurobuddy-pyodide` branch runs the same v0.7.1 pipeline inside Pyodide in a Web Worker. GitHub Pages publishes the static app. EEG files, teams, and reports stay in IndexedDB / OPFS on the visitor's device. Use **Backup** to download a ZIP you can restore after storage is cleared. Dependency audit: `docs/PYODIDE.md`.
 
-The app creates `data/coach.sqlite3`, `data/recordings/<uuid>/` and `data/reports/<job-uuid>/` at first run. Set `NEUROBUDDY_DATA_DIR` before starting to redirect persistence.
+The local FastAPI app creates `data/coach.sqlite3`, `data/recordings/<uuid>/` and `data/reports/<job-uuid>/` at first run. Set `NEUROBUDDY_DATA_DIR` before starting to redirect persistence.
 
 ## Three-tab website
 

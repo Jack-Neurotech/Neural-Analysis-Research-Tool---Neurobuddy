@@ -1,0 +1,11 @@
+{
+  "name": "neurobuddy-pyodide",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:pyodide": "node tests/pyodide/compatibility.mjs"
+  },
+  "devDependencies": {
+    "pyodide": "^0.28.3"
+  }
+}

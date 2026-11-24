@@ -1,5 +1,5 @@
 /* Coach Atlas v0.3. Original three-tab UI, central persistent Repository.
-   Optimized Neurobuddy 0.7.1 scientific engine runs server-side. AI not connected. */
+   Optimized Neurobuddy 0.7.1 scientific engine runs in Pyodide or local FastAPI. AI not connected. */
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
@@ -14,7 +14,7 @@
   const fmtSize = bytes => bytes>=1048576?(bytes/1048576).toFixed(1)+' MB':Math.max(1,Math.round(bytes/1024))+' KB';
   const badge = (value) => `<span class="status ${['completed','ready','COMPLETE','Within range'].includes(value)?'ready':['failed','Abnormal'].includes(value)?'fail':''}">${html(value||'unknown').replaceAll('_',' ')}</span>`;
   const artifactUrl = (id,path) => {
-    if (window.NeurobuddyShare && window.NeurobuddyShare.mode === 'share') {
+    if (window.NeurobuddyShare && window.NeurobuddyShare.mode !== 'live' && window.NeurobuddyShare.artifactUrl) {
       return window.NeurobuddyShare.artifactUrl(id, path);
     }
     return `/api/v2/artifacts/${encodeURIComponent(id)}/${path.split('/').map(encodeURIComponent).join('/')}`;
@@ -22,7 +22,7 @@
   async function api(path,options={}){
     let response;
     try{response=await fetch(BASE+path,{...options,cache:'no-store'});}
-    catch(e){throw new Error('Cannot reach the local Neurobuddy server. Start it with the README command. '+e.message);}
+    catch(e){throw new Error('Cannot reach the Neurobuddy analysis runtime. '+e.message);}
     const payload=await response.json().catch(()=>null);
     if(!response.ok){
       const detail=payload?.detail;
@@ -191,7 +191,7 @@
   async function loadReport(id){
     const job=await api('/v2/jobs/'+encodeURIComponent(id));state.selectedJob=id;
     if(job.status==='failed'||job.status==='interrupted'){$('report-content').innerHTML=`<h2>Job ${html(job.status)}</h2><p class="error-text">${html(job.error)}</p><button class="secondary-button" data-retry-job="${html(id)}">Retry</button>`;return;}
-    if(job.status!=='completed'||!job.result){$('report-content').innerHTML=`<h2>${html(job.status)}…</h2><p>The v0.7.1 engine is processing this recording. Results are saved on the local server.</p>`;return;}
+    if(job.status!=='completed'||!job.result){$('report-content').innerHTML=`<h2>${html(job.status)}…</h2><p>The v0.7.1 engine is processing this recording in the browser. Progress appears in the status banner.</p>`;return;}
     $('report-content').innerHTML=reportForJob(id,job.result);
   }
   async function launchJob(){
@@ -368,10 +368,17 @@
   window.addEventListener('hashchange',()=>navigate(['library','analysis','advanced'].includes(location.hash.slice(1))?location.hash.slice(1):'library'));
   function applyHealth(payload){
     $('online-dot').classList.remove('off');
-    const share=payload&&payload.mode==='shareable-link';
-    $('server-status').textContent=share?'Shareable link ready':'Local server connected';
+    const mode=payload&&payload.mode;
+    const browser=mode==='browser-native'||mode==='shareable-link';
+    if(mode==='browser-native'){
+      const ready=payload.pyodide_ready;
+      $('server-status').textContent=ready?'Browser analysis ready':(payload.pyodide_status==='error'?'Python runtime error':'Loading Python runtime');
+      if(!ready)$('online-dot').classList.add('off');
+    }else{
+      $('server-status').textContent=mode==='shareable-link'?'Shareable link ready':'Local server connected';
+    }
     const kind=$('workspace-kind');
-    if(kind)kind.textContent=share?'Send this URL · sample workspace':'Local research workspace';
+    if(kind)kind.textContent=mode==='browser-native'?'On-device Pyodide · no server':(browser?'Send this URL · sample workspace':'Local research workspace');
   }
   function currentShareLink(){
     return location.origin+location.pathname+location.search;
@@ -406,6 +413,45 @@
   }
   bindShareButtons();
   showShareUrl();
+  window.addEventListener('neurobuddy:progress', (event) => {
+    const message = event.detail && event.detail.message;
+    if (message) notify(message);
+  });
+  const backupBtn = $('backup-workspace');
+  if (backupBtn) backupBtn.addEventListener('click', () => safe(async () => {
+    if (window.NeurobuddyShare && window.NeurobuddyShare.backup) await window.NeurobuddyShare.backup();
+    else {
+      const response = await fetch(BASE + '/v2/backup');
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'neurobuddy-backup.zip'; a.click();
+      URL.revokeObjectURL(url);
+    }
+    notify('Backup downloaded. Keep this ZIP off-browser so a cleared site storage can be restored.', 'success');
+  }));
+  const restoreBtn = $('restore-workspace');
+  const restoreFile = $('restore-file');
+  if (restoreBtn && restoreFile) {
+    restoreBtn.addEventListener('click', () => restoreFile.click());
+    restoreFile.addEventListener('change', () => safe(async () => {
+      const file = restoreFile.files && restoreFile.files[0];
+      restoreFile.value = '';
+      if (!file) return;
+      if (window.NeurobuddyShare && window.NeurobuddyShare.restore) await window.NeurobuddyShare.restore(file);
+      else {
+        const form = new FormData();
+        form.append('backup', file);
+        await api('/v2/restore', { method: 'POST', body: form });
+      }
+      await loadLibrary();
+      await loadJobs();
+      notify('Workspace restored from backup.', 'success');
+    }));
+  }
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register(new URL('sw.js', document.baseURI)).catch(() => {});
+  }
   setInterval(()=>safe(async()=>{try{applyHealth(await api('/v2/health'));}catch{$('online-dot').classList.add('off');$('server-status').textContent='Server disconnected';}}),15000);
   setInterval(()=>{if(state.tab==='analysis'&&state.jobs.some(j=>['queued','running'].includes(j.status)))safe(loadJobs);},2500);
   safe(async()=>{applyHealth(await api('/v2/health'));await loadLibrary();await loadJobs();navigate(['library','analysis','advanced'].includes(location.hash.slice(1))?location.hash.slice(1):'library');});

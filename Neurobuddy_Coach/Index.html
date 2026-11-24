@@ -4,10 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="Neurobuddy Coach — browser-native EEG analysis with Pyodide. Recordings stay on this device.">
   <title>Neurobuddy | Coach EEG Atlas Shelf Workspace v0.3.1</title>
   <link rel="icon" href="v2/assets/cyber-neuron.png" type="image/png">
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="v2/styles.css">
-  <script src="v2/hosted-api.js"></script>
+  <script src="v2/browser-store.js"></script>
+  <script src="v2/browser-api.js"></script>
   <script defer src="v2/shelf-ui.js"></script>
   <script defer src="v2/app.js"></script>
 </head>
@@ -28,6 +31,9 @@
       </div>
       <div class="sidebar-bottom"><div class="online-dot" id="online-dot"></div><div><strong id="server-status">Checking server</strong><small id="workspace-kind">Local research workspace</small></div>
         <button type="button" class="secondary-button small-btn share-link-button" id="copy-share-link" title="Copy a URL you can send">Copy link</button>
+        <button type="button" class="secondary-button small-btn" id="backup-workspace" title="Download a local backup of teams, EEG files, and reports">Backup</button>
+        <button type="button" class="secondary-button small-btn" id="restore-workspace" title="Restore a Neurobuddy backup ZIP">Restore</button>
+        <input id="restore-file" type="file" accept=".zip,application/zip" hidden>
       </div>
     </aside>
 

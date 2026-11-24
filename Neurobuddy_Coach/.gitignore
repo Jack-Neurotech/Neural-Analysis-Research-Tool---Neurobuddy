@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.pyc
+data/
+node_modules/
+vendor/pyodide/
+tests/pyodide/ui-verify/
+https:
