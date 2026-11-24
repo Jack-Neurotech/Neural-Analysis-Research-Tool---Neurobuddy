@@ -1,0 +1,253 @@
+.scene {
+  background: var(--navy);
+  overflow: visible;
+}
+
+.gallery {
+  margin: 18px 0 0;
+}
+
+.stage {
+  position: relative;
+  height: min(48vh, 420px);
+  min-height: 280px;
+  perspective: 1400px;
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.stage:active {
+  cursor: grabbing;
+}
+
+.nav {
+  position: absolute;
+  top: 50%;
+  z-index: 20;
+  width: 42px;
+  height: 42px;
+  margin-top: -21px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--navy) 78%, transparent);
+  color: var(--ivory);
+  font-size: 18px;
+  backdrop-filter: blur(10px);
+}
+
+.navPrev {
+  left: 8px;
+}
+
+.navNext {
+  right: 8px;
+}
+
+.track {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.item {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(720px, 68vw);
+  height: min(380px, 42vh);
+  min-height: 240px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #080d19;
+  color: var(--ivory);
+  transform-origin: center center;
+  transform: translate(-50%, -50%) translateX(calc(var(--o) * 62%)) rotateY(calc(var(--o) * -28deg))
+    scale(calc(1 - min(var(--abs), 1) * 0.12));
+  opacity: calc(1 - min(var(--abs), 1.2) * 0.5);
+  transition: transform var(--t-scene) var(--ease), opacity var(--t-ui) var(--ease), border-color var(--t-ui);
+  box-shadow: var(--shadow);
+}
+
+.dragging .item {
+  transition: none;
+}
+
+.itemOn {
+  border-color: var(--lavender);
+}
+
+.item img,
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+  background: #080d19;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+.video {
+  pointer-events: auto;
+}
+
+.itemMeta {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 28px 16px 12px;
+  background: linear-gradient(transparent, rgba(10, 16, 32, 0.86));
+  color: var(--ivory);
+  pointer-events: none;
+}
+
+.itemName {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: -0.04em;
+}
+
+.pips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 10px;
+}
+
+.pip {
+  border: 1px solid var(--line-strong);
+  background: var(--navy-2);
+  color: var(--ivory);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-family: var(--font-display);
+}
+
+.pipOn {
+  background: var(--lavender);
+  color: #120f24;
+  border-color: transparent;
+}
+
+.detail {
+  margin-top: 22px;
+  max-width: 46rem;
+}
+
+.detail h3 {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.4vw, 32px);
+  letter-spacing: -0.04em;
+  margin: 0 0 10px;
+}
+
+.detail p {
+  margin: 0;
+  color: var(--muted);
+}
+
+@media (max-width: 480px) {
+  .stage {
+    height: 220px;
+    min-height: 200px;
+  }
+
+  .item {
+    width: min(300px, 82vw);
+    height: 190px;
+    min-height: 170px;
+  }
+}
+
+html[data-motion='reduced'] .stage {
+  perspective: none;
+  height: auto;
+  min-height: 0;
+  cursor: default;
+}
+
+html[data-motion='reduced'] .track {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  transform: none;
+  transform-style: flat;
+  inset: auto;
+}
+
+html[data-motion='reduced'] .item {
+  position: relative;
+  left: auto;
+  top: auto;
+  width: auto;
+  height: auto;
+  min-height: 220px;
+  transform: none;
+  opacity: 1;
+  transition: none;
+  pointer-events: auto !important;
+}
+
+html[data-motion='reduced'] .nav {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  html[data-motion='reduced'] .track {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    perspective: none;
+    height: auto;
+    min-height: 0;
+    cursor: default;
+  }
+
+  .track {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    transform: none;
+    transform-style: flat;
+    inset: auto;
+  }
+
+  .item {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+    height: auto;
+    min-height: 220px;
+    transform: none;
+    opacity: 1;
+    transition: none;
+    pointer-events: auto !important;
+  }
+
+  .nav {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 720px) {
+  .track {
+    grid-template-columns: 1fr;
+  }
+}

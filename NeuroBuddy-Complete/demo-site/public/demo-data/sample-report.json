@@ -1,0 +1,34 @@
+{
+  "sample": true,
+  "label": "SAMPLE DATA — demonstration file, not produced from visitor EEG",
+  "schema_version": "1.0.0",
+  "report_type": "illustrative_frontend_mock",
+  "pipeline_version": "0.7.1-optimized",
+  "athlete": "Athlete Rivera",
+  "task_family": "ODDBALL",
+  "notes": [
+    "Interactive demo · illustrative sample data",
+    "AI interpretation: Planned / Not connected",
+    "Artifact flags are suspected intervals only; signal is not cleaned"
+  ],
+  "metrics": [
+    {
+      "metric": "Pz P300 peak amplitude",
+      "unit": "uV",
+      "baseline_mean": 8.69,
+      "baseline_sd": 0.381837,
+      "test_value": 7.21,
+      "z_score": -3.8765,
+      "flag": "warning"
+    },
+    {
+      "metric": "Fz N200 peak amplitude",
+      "unit": "uV",
+      "baseline_mean": -4.19,
+      "baseline_sd": 0.127279,
+      "test_value": -4.35,
+      "z_score": -1.257,
+      "flag": "within"
+    }
+  ]
+}

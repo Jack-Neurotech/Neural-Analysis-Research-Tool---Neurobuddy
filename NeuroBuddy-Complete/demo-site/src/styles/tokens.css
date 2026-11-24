@@ -1,0 +1,40 @@
+:root {
+  --navy: #0a1020;
+  --navy-2: #101b30;
+  --navy-3: #16243c;
+  --navy-4: #1c2c48;
+  --ivory: #f5f1e9;
+  --ivory-2: #e7e0d2;
+  --ivory-3: #d9d0be;
+  --teal: #59cec6;
+  --teal-dim: rgba(89, 206, 198, 0.16);
+  --lavender: #a59bff;
+  --lavender-dim: rgba(165, 155, 255, 0.16);
+  --axon: #ed4658;
+  --axon-dim: rgba(237, 70, 88, 0.22);
+  --text: #f4f1ea;
+  --text-dark: #141a28;
+  --muted: #9aa6bd;
+  --muted-dark: #4c556c;
+  --line: rgba(245, 241, 233, 0.12);
+  --line-strong: rgba(245, 241, 233, 0.22);
+  --line-dark: rgba(10, 16, 32, 0.14);
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+  --radius: 8px;
+  --radius-lg: 14px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --t-scene: 720ms;
+  --t-ui: 180ms;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --gutter: clamp(18px, 4vw, 56px);
+  --max: 1440px;
+  --banner-h: 44px;
+  --header-h: 64px;
+  --chrome-offset: calc(var(--banner-h) + var(--header-h) + 20px);
+}
+
+html[data-motion="reduced"] {
+  --t-scene: 1ms;
+  --t-ui: 1ms;
+}

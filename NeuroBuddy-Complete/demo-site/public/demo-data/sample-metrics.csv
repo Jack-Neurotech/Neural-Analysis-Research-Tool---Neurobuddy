@@ -1,0 +1,4 @@
+sample,label,metric,unit,baseline_mean,baseline_sd,test_value,z_score,flag
+true,SAMPLE DATA — not engine output from this session,Pz P300 peak amplitude,uV,8.69,0.381837,7.21,-3.8765,warning
+true,SAMPLE DATA — not engine output from this session,Fz N200 peak amplitude,uV,-4.19,0.127279,-4.35,-1.257,within
+true,SAMPLE DATA — not engine output from this session,Cz band power 8-12 Hz,uV2/Hz,12.275,0.33234,12.18,-0.2859,within

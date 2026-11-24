@@ -1,0 +1,160 @@
+.scene {
+  background: var(--navy-2);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 46fr 54fr;
+  gap: 28px;
+  align-items: start;
+  margin-top: 28px;
+}
+
+.steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.steps li {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 16px 16px 18px;
+  background: #161f36;
+  min-height: 100%;
+}
+
+.steps h3 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  letter-spacing: -0.03em;
+  margin: 0 0 8px;
+}
+
+.steps p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.diagram {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 12px;
+}
+
+.tree {
+  margin: 0;
+}
+
+.folder {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #161f36;
+  margin: 8px 0 0;
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  margin: 0;
+  padding: 12px 14px;
+  font-weight: 650;
+}
+
+.summary span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.inner {
+  padding: 8px 12px 14px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 8px;
+}
+
+.group {
+  margin: 8px 0 0;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lavender);
+}
+
+.shelf {
+  margin: 0;
+  border: 1px dashed #425372;
+  border-radius: 9px;
+  padding: 10px 12px;
+  background: #17233a;
+  font-size: 13px;
+}
+
+.drop {
+  min-height: 160px;
+  border: 2px dashed #605e89;
+  border-radius: 14px;
+  background: #191e39;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  padding: 18px;
+  gap: 8px;
+}
+
+.drop strong {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: -0.03em;
+}
+
+.drop p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.player {
+  margin: 0;
+}
+
+.player h3 {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 32px);
+  letter-spacing: -0.03em;
+  margin: 0 0 8px;
+}
+
+.video {
+  width: 100%;
+  margin-top: 14px;
+  background: #05080f;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  aspect-ratio: 16 / 10;
+  max-height: 420px;
+  object-fit: cover;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .diagram {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .steps {
+    grid-template-columns: 1fr;
+  }
+}
