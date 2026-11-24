@@ -1,0 +1,11 @@
+mne>=1.8,<2
+numpy>=1.26
+scipy>=1.11
+matplotlib>=3.8
+pandas>=2.0
+h5py>=3.8
+pytest>=8
+jsonschema>=4.21
+
+# Cached compiled validation of the existing report JSON Schema.
+fastjsonschema>=2.20,<3
